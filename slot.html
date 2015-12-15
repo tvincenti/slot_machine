@@ -1,0 +1,104 @@
+<html>
+<head>
+	<title>Tim Vincenti's Slot Machine</title>
+
+<script type="text/javascript">
+	
+	var graphics = ["donut.jpg","bar.jpg","cherry.jpg","lemon.jpg"];
+	var slot = ["slot1", "slot2", "slot3"];
+	var s0 = 0;
+	var s1 = 0;
+	var s2 = 0;
+	var bank = 20;
+	var bet = 1;
+	var winMultiplier = 13;
+
+	window.onload = function setBetsetBank(){
+		var betOutput= document.getElementById("betState");
+			betOutput.value = bet;
+		var bankOutput0= document.getElementById("bankState");
+			bankOutput0.value = bank;
+	}
+	
+	function DoSpin(imgList)
+		{
+			
+			if (bank < bet){
+				alert("You do not have sufficient funds to place that bet.");
+
+			} else if (bet <= 0){
+
+				alert("You can not place a bet less than or equal to zero");
+			} else {
+
+				if (bank >0){
+
+					for (var i = 0; i < slot.length; i++) {
+					var imgNum = Math.floor(Math.random() * (imgList.length));
+					eval("s" + [i] + "= imgNum");
+		 			document.getElementById(slot[i]).src = graphics[imgNum];
+					}
+				bank = bank - bet;
+				var bankOutput1 = document.getElementById("bankState");
+				bankOutput1.value = bank;
+				return CheckWinner();
+
+				} else {
+					alert("You are broke!");
+					}		
+			}
+	}
+	
+	function CheckWinner()
+		{
+			
+			if (s0 == s1 && s0 == s2){
+				alert("You Win!");
+				bank = bank + (bet * 13);
+				var bankOutput2 = document.getElementById("bankState");
+				bankOutput2.value = bank;
+				
+			}
+				
+		}
+
+	function betGet(){
+
+		bet = document.getElementById('betState').value;
+		
+	}	
+
+</script>
+
+
+
+</head>
+
+<body>
+
+<div align="center">
+	<table border="1">
+		<tr>
+			<td><img id="slot1" src="bar.jpg"></td>
+			<td><img id="slot2" src="bar.jpg"></td>
+			<td><img id="slot3" src="bar.jpg"></td>
+		</tr>
+	</table>
+	
+<form>
+	<input type="button" value="Click To Spin" onclick="DoSpin(graphics);" />
+
+</form>
+
+<form>
+	Money: <input type="text" id="bankState" />
+</form>
+
+<form>
+	Bet: <input type="text" id="betState" onkeyup="betGet()" />
+</form>
+
+
+</div>
+</body>
+</html>
